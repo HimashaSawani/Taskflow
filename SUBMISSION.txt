@@ -1,0 +1,99 @@
+================================================================================
+TASKFLOW — PRODUCTION FULL-STACK TASK MANAGEMENT SYSTEM
+ASSIGNMENT SUBMISSION & EVALUATION GUIDE
+================================================================================
+
+PROJECT OVERVIEW:
+TaskFlow is a production-style full-stack Task Management application featuring
+Role-Based Access Control (Normal User vs. Administrator), strict Express server-side
+permission enforcement, MongoDB persistence, and an interactive Kanban board built
+with Next.js 15 and @dnd-kit.
+
+--------------------------------------------------------------------------------
+1. SEEDED DEMO CREDENTIALS
+--------------------------------------------------------------------------------
+A) Administrator Account:
+   Email:     admin@taskflow.com
+   Password:  AdminPassword123!
+   Role:      admin
+
+B) Member / Normal User Account:
+   Email:     alex@taskflow.com
+   Password:  Password123!
+   Role:      user
+
+Note: The database seed scripts automatically provision both accounts with
+bcrypt-hashed passwords. On the Login page (http://localhost:3000/login),
+you can also click the "1-Click Demo Accounts" buttons ("Admin Account" /
+"Member Account") to autofill either credential set immediately.
+
+--------------------------------------------------------------------------------
+2. TECH STACK
+--------------------------------------------------------------------------------
+Frontend:        Next.js 15.5 (App Router), React 19, TypeScript, Tailwind CSS
+Drag & Drop:     @dnd-kit/core, @dnd-kit/sortable, @dnd-kit/utilities
+Backend:         Node.js, Express.js, TypeScript
+Database:        MongoDB & Mongoose (Atlas support + in-memory Mongo fallback)
+Authentication:  JWT (jsonwebtoken) + bcryptjs
+Security:        Helmet (HTTP security headers), CORS, Zod validation
+Deployment Arch: Vercel (Frontend) + Render/Railway (Backend) + MongoDB Atlas
+
+--------------------------------------------------------------------------------
+3. LOCAL RUNNING INSTRUCTIONS
+--------------------------------------------------------------------------------
+Backend:
+  cd backend
+  npm install
+  npm run seed:admin
+  npm start        # Production build at http://localhost:5000
+  (or npm run dev) # tsx watch mode
+
+Frontend:
+  cd frontend
+  npm install
+  npm run build
+  npm start        # Production server at http://localhost:3000
+  (or npm run dev) # Next dev mode
+
+--------------------------------------------------------------------------------
+4. 5-MINUTE REVIEWER VERIFICATION FLOW (STEP-BY-STEP)
+--------------------------------------------------------------------------------
+Step 1:  Open application at http://localhost:3000
+Step 2:  Click "Register" and register a new user (e.g. reviewer@example.com)
+Step 3:  Log in with the new user credentials
+Step 4:  Click "+ Create Task", enter Title, Description, Priority, Due Date
+Step 5:  Observe newly created task appearing in "TO DO" column
+Step 6:  Drag the task card from "TO DO" to "DOING" using the drag handle
+Step 7:  Refresh browser (F5 / reload)
+Step 8:  Observe that the task remains in "DOING" (verifying persistence to MongoDB!)
+Step 9:  Click "Logout"
+Step 10: Log in as Administrator (admin@taskflow.com / AdminPassword123!)
+Step 11: Visit "Admin Hub" (/admin) and "User Directory" (/admin/users) to view
+         all registered users and system tasks
+Step 12: In the "All Tasks" table, click "Reassign" on a task
+Step 13: Select a user radio button (e.g. reviewer) or "Unassigned" and save
+Step 14: Change task status via drag-and-drop or edit modal
+Step 15: Click "Logout"
+
+--------------------------------------------------------------------------------
+5. STRICT AUTHORIZATION RULES DEMONSTRATED
+--------------------------------------------------------------------------------
+- Normal users can only view their tasks (created by them, assigned to them, or open)
+- Normal users creating tasks strictly have assignedUser set to null
+- Normal users attempting direct API calls to /api/users receive 403 Forbidden
+- Normal users attempting to assign tasks to other users receive 403 Forbidden
+- Normal users can claim open unassigned tasks for themselves
+- Administrators can view all tasks, all users, and freely reassign/unassign tasks
+
+--------------------------------------------------------------------------------
+6. PRODUCTION BONUS PACKAGE INCLUDED
+--------------------------------------------------------------------------------
+- Task Priority (LOW, MEDIUM, HIGH) with color-coded badges
+- Enhanced Due Dates (Overdue by X days, Due Today, X days left, Completed)
+- Multi-Filter Toolbar (Search text, Status, Priority, Assigned User + Reset)
+- Activity History Audit Log with slide-over drawer
+- 6-Card Dashboard Statistics (Total Tasks, To Do, Doing, Done, High Priority, Overdue)
+- In-App Notification Center (Bell icon dropdown with live alerts & mark read)
+- Dark / Light Mode Theme Switcher (persisted in localStorage)
+
+================================================================================
