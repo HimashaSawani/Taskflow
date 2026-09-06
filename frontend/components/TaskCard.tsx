@@ -256,9 +256,64 @@ export default function TaskCard({
       </div>
 
       {/* Bottom Row: Enhanced Due Date with Overdue Indicator, Counters, Assignee */}
-      <div className="flex items-center justify-between pt-2.5 border-t border-slate-100 dark:border-slate-800 text-slate-400 text-[11px]">
-        <div className="flex items-center space-x-3">
-          {/* Enhanced Due Date Pill */}
+      <div className="flex flex-col gap-2 pt-2.5 border-t border-slate-100 dark:border-slate-800 text-slate-400 text-[11px]">
+        {/* Assignee State Banner */}
+        <div className="flex items-center justify-between">
+          {task.assignedUser ? (
+            <div className="flex items-center space-x-1.5">
+              <div
+                className="w-5 h-5 rounded-full bg-slate-800 dark:bg-indigo-600 text-white flex items-center justify-center text-[10px] font-bold shadow-sm"
+                title={`Assigned to ${task.assignedUser.name}`}
+              >
+                {task.assignedUser.name.charAt(0).toUpperCase()}
+              </div>
+              <span className="text-[11px] font-semibold text-slate-700 dark:text-slate-300 truncate max-w-[120px]">
+                {task.assignedUser.name}
+              </span>
+            </div>
+          ) : (
+            <div className="flex items-center space-x-1.5 text-indigo-600 dark:text-indigo-400">
+              <span className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse"></span>
+              <span className="text-[11px] font-bold">Unassigned</span>
+            </div>
+          )}
+
+          {/* Quick Action Buttons per Role */}
+          <div className="flex items-center space-x-1.5">
+            {isUnassigned && !isAdmin && onClaim && (
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onClaim(task._id);
+                }}
+                className="px-2 py-0.5 rounded-md bg-indigo-50 dark:bg-indigo-950/60 hover:bg-indigo-100 dark:hover:bg-indigo-900 text-indigo-600 dark:text-indigo-400 text-[10px] font-bold flex items-center space-x-1 transition-colors border border-indigo-200 dark:border-indigo-800"
+                title="Assign to Me"
+              >
+                <UserCheck className="w-3 h-3" />
+                <span>Assign to Me</span>
+              </button>
+            )}
+
+            {isAdmin && onOpenAssign && (
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onOpenAssign(task);
+                }}
+                className="px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 hover:bg-indigo-50 dark:hover:bg-indigo-950/60 text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 text-[10px] font-semibold flex items-center space-x-1 transition-colors border border-slate-200 dark:border-slate-700"
+                title={isUnassigned ? "Assign Task" : "Reassign Task"}
+              >
+                <UserCheck className="w-3 h-3" />
+                <span>{isUnassigned ? 'Assign' : 'Reassign'}</span>
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Metadata: Due Date & Comments */}
+        <div className="flex items-center justify-between pt-1 border-t border-slate-50 dark:border-slate-800/60">
           <div
             className={`flex items-center space-x-1 text-[10px] px-1.5 py-0.5 rounded-md border ${dueInfo.badgeClass}`}
           >
@@ -266,41 +321,19 @@ export default function TaskCard({
             <span>{dueInfo.label}</span>
           </div>
 
-          {/* Comments count */}
-          <div className="flex items-center space-x-0.5">
-            <MessageSquare className="w-3 h-3 text-slate-400" />
-            <span>{task.comments?.length ?? 0}</span>
-          </div>
-
-          {/* Attachments count */}
-          <div className="flex items-center space-x-0.5">
-            <Paperclip className="w-3 h-3 text-slate-400" />
-            <span>1</span>
-          </div>
-        </div>
-
-        {/* Assignee Avatar */}
-        <div className="flex items-center space-x-1.5">
-          {task.assignedUser ? (
-            <div className="flex items-center space-x-1.5">
-              <span className="text-[10px] text-slate-500 dark:text-slate-400 font-medium hidden sm:inline">
-                {task.assignedUser.name.split(' ')[0]}
-              </span>
-              <div
-                className="w-6 h-6 rounded-full bg-slate-800 dark:bg-indigo-600 text-white flex items-center justify-center text-[10px] font-bold ring-2 ring-white dark:ring-slate-900"
-                title={`Assigned to ${task.assignedUser.name}`}
-              >
-                {task.assignedUser.name.charAt(0).toUpperCase()}
-              </div>
+          <div className="flex items-center space-x-2.5 text-slate-400">
+            {/* Comments count */}
+            <div className="flex items-center space-x-0.5">
+              <MessageSquare className="w-3 h-3 text-slate-400" />
+              <span>{task.comments?.length ?? 0}</span>
             </div>
-          ) : (
-            <div
-              className="w-6 h-6 rounded-full bg-slate-100 dark:bg-slate-800 border border-dashed border-slate-300 dark:border-slate-700 text-slate-400 flex items-center justify-center text-[10px]"
-              title="Unassigned"
-            >
-              ?
+
+            {/* Attachments count */}
+            <div className="flex items-center space-x-0.5">
+              <Paperclip className="w-3 h-3 text-slate-400" />
+              <span>1</span>
             </div>
-          )}
+          </div>
         </div>
       </div>
     </div>
