@@ -18,6 +18,7 @@ import TaskColumn from './TaskColumn';
 import TaskCard from './TaskCard';
 import CreateTaskModal from './CreateTaskModal';
 import TaskDetailModal from './TaskDetailModal';
+import AssignTaskModal from './AssignTaskModal';
 import { Task, TaskStatus, TaskPriority } from '../types/task';
 import { User } from '../types/user';
 import api from '../lib/api';
@@ -59,6 +60,7 @@ export default function TaskBoard({ currentUser }: TaskBoardProps) {
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
+  const [assignModalTask, setAssignModalTask] = useState<Task | null>(null);
   const [activeTask, setActiveTask] = useState<Task | null>(null);
 
   const sensors = useSensors(
@@ -294,6 +296,35 @@ export default function TaskBoard({ currentUser }: TaskBoardProps) {
   const overdueCount = tasks.filter(isTaskOverdue).length;
 
   const isAdmin = currentUser?.role === 'admin';
+
+  if (loading) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-between pb-1">
+          <div className="space-y-2 animate-pulse">
+            <div className="h-8 w-64 bg-slate-200 dark:bg-slate-800 rounded-xl"></div>
+            <div className="h-4 w-96 bg-slate-100 dark:bg-slate-800/60 rounded-lg"></div>
+          </div>
+          <div className="h-10 w-28 bg-slate-200 dark:bg-slate-800 rounded-xl animate-pulse"></div>
+        </div>
+
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3.5">
+          {[...Array(6)].map((_, i) => (
+            <div key={i} className="h-20 bg-slate-100 dark:bg-slate-900 border border-slate-200/60 dark:border-slate-800 rounded-2xl animate-pulse"></div>
+          ))}
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
+          {[...Array(3)].map((_, i) => (
+            <div key={i} className="min-h-[450px] bg-slate-100/50 dark:bg-slate-900/40 border border-dashed border-slate-200 dark:border-slate-800 rounded-2xl p-4 flex flex-col items-center justify-center text-slate-400 text-xs">
+              <div className="w-8 h-8 rounded-full border-2 border-indigo-500 border-t-transparent animate-spin mb-3"></div>
+              <span>Loading tasks...</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -559,6 +590,7 @@ export default function TaskBoard({ currentUser }: TaskBoardProps) {
               }}
               onDeleteTask={handleDeleteTask}
               onClaimTask={handleClaimTask}
+              onOpenAssign={(t) => setAssignModalTask(t)}
               onQuickAdd={() => setIsCreateOpen(true)}
             />
 
@@ -573,6 +605,7 @@ export default function TaskBoard({ currentUser }: TaskBoardProps) {
               }}
               onDeleteTask={handleDeleteTask}
               onClaimTask={handleClaimTask}
+              onOpenAssign={(t) => setAssignModalTask(t)}
               onQuickAdd={() => setIsCreateOpen(true)}
             />
 
@@ -587,6 +620,7 @@ export default function TaskBoard({ currentUser }: TaskBoardProps) {
               }}
               onDeleteTask={handleDeleteTask}
               onClaimTask={handleClaimTask}
+              onOpenAssign={(t) => setAssignModalTask(t)}
               onQuickAdd={() => setIsCreateOpen(true)}
             />
           </div>
@@ -886,6 +920,17 @@ export default function TaskBoard({ currentUser }: TaskBoardProps) {
         onDelete={handleDeleteTask}
         onClaim={handleClaimTask}
         onAddComment={handleAddComment}
+      />
+
+      <AssignTaskModal
+        isOpen={!!assignModalTask}
+        onClose={() => setAssignModalTask(null)}
+        task={assignModalTask}
+        users={users}
+        onSubmit={async (taskId, assignedUserId) => {
+          await handleAssignTask(taskId, assignedUserId);
+          setAssignModalTask(null);
+        }}
       />
     </div>
   );
