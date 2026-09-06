@@ -75,7 +75,25 @@ export default function TaskColumn({
       </div>
 
       {/* Task List */}
-      <div className="flex-1 space-y-3 overflow-y-auto pr-0.5">
+      <div className="flex-1 space-y-3 overflow-y-auto pr-0.5 flex flex-col justify-start">
+        {tasks.length === 0 && (
+          <div className="p-5 my-2 border border-dashed border-slate-200 dark:border-slate-800 rounded-2xl text-center bg-slate-50/50 dark:bg-slate-900/30">
+            <p className="text-xs font-semibold text-slate-500 dark:text-slate-400">
+              No tasks in {title}
+            </p>
+            {onQuickAdd && (
+              <button
+                type="button"
+                onClick={() => onQuickAdd(id)}
+                className="mt-2 inline-flex items-center space-x-1 text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 hover:underline"
+              >
+                <span>Create your first task</span>
+                <span>→</span>
+              </button>
+            )}
+          </div>
+        )}
+
         <SortableContext items={taskIds} strategy={verticalListSortingStrategy}>
           {tasks.map((task) => (
             <TaskCard
@@ -90,13 +108,13 @@ export default function TaskColumn({
           ))}
         </SortableContext>
 
-        {/* Ghost Dashed Add Card Slot matching Screenshot 3 */}
-        {onQuickAdd && (
+        {/* Ghost Dashed Add Card Slot */}
+        {onQuickAdd && tasks.length > 0 && (
           <button
             onClick={() => onQuickAdd(id)}
-            className="w-full border-2 border-dashed border-slate-200 rounded-2xl h-24 flex items-center justify-center text-slate-300 hover:text-indigo-600 hover:border-indigo-300 hover:bg-white/60 transition-all group"
+            className="w-full border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-2xl h-16 flex items-center justify-center text-slate-300 dark:text-slate-600 hover:text-indigo-600 dark:hover:text-indigo-400 hover:border-indigo-300 dark:hover:border-indigo-700 hover:bg-white/60 dark:hover:bg-slate-900/50 transition-all group"
           >
-            <Plus className="w-5 h-5 group-hover:scale-110 transition-transform" />
+            <Plus className="w-4 h-4 group-hover:scale-110 transition-transform" />
           </button>
         )}
       </div>
