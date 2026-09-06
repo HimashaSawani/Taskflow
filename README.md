@@ -386,6 +386,3 @@ Passwords are dynamically hashed using `bcrypt` prior to database insertion.
 
 ---
 
-## Author
-**Himasha**  
-Full-Stack Software Engineer
