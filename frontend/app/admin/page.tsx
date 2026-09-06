@@ -100,12 +100,12 @@ export default function AdminOverviewPage() {
   const getStatusBadge = (status: TaskStatus) => {
     switch (status) {
       case 'DOING':
-        return 'bg-amber-50 text-amber-700 border border-amber-200';
+        return 'bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800';
       case 'DONE':
-        return 'bg-emerald-50 text-emerald-700 border border-emerald-200';
+        return 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800';
       case 'TODO':
       default:
-        return 'bg-slate-100 text-slate-700 border border-slate-200';
+        return 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700';
     }
   };
 
@@ -127,125 +127,125 @@ export default function AdminOverviewPage() {
     <ProtectedRoute requireAdmin={true}>
       <AppLayout breadcrumbSubtitle="Admin Overview">
         <div className="space-y-6">
-          {/* Heading matching Image 1 */}
+          {/* Heading */}
           <div>
-            <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">
+            <h1 className="text-2xl font-extrabold text-slate-900 dark:text-white tracking-tight">
               Admin Overview
             </h1>
-            <p className="text-xs text-slate-500 mt-1">
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
               Monitor system-wide activity, manage tasks, and oversee user permissions.
             </p>
           </div>
 
-          {/* 4 Stat Cards matching Image 1 */}
+          {/* 4 Stat Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {/* Total Users */}
-            <div className="saas-card p-5 bg-white border border-slate-200 rounded-2xl flex flex-col justify-between">
+            <div className="saas-card p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl flex flex-col justify-between">
               <div className="flex items-center justify-between">
-                <div className="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-xl bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
                   <Users className="w-5 h-5" />
                 </div>
-                <span className="inline-flex items-center space-x-1 text-emerald-600 text-xs font-bold bg-emerald-50 px-2 py-0.5 rounded-full">
+                <span className="inline-flex items-center space-x-1 text-emerald-600 dark:text-emerald-400 text-xs font-bold bg-emerald-50 dark:bg-emerald-950/40 px-2 py-0.5 rounded-full">
                   <TrendingUp className="w-3 h-3" />
                   <span>+12%</span>
                 </span>
               </div>
               <div className="mt-4">
-                <span className="text-xs font-medium text-slate-400 block">
+                <span className="text-xs font-medium text-slate-400 dark:text-slate-400 block">
                   Total Users
                 </span>
-                <span className="text-2xl font-extrabold text-slate-900 mt-0.5 block">
+                <span className="text-2xl font-extrabold text-slate-900 dark:text-white mt-0.5 block">
                   {totalUsersDisplay}
                 </span>
               </div>
             </div>
 
             {/* Active Tasks */}
-            <div className="saas-card p-5 bg-white border border-slate-200 rounded-2xl flex flex-col justify-between">
+            <div className="saas-card p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl flex flex-col justify-between">
               <div className="flex items-center justify-between">
-                <div className="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-xl bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
                   <Clock className="w-5 h-5" />
                 </div>
-                <span className="inline-flex items-center space-x-1 text-emerald-600 text-xs font-bold bg-emerald-50 px-2 py-0.5 rounded-full">
+                <span className="inline-flex items-center space-x-1 text-emerald-600 dark:text-emerald-400 text-xs font-bold bg-emerald-50 dark:bg-emerald-950/40 px-2 py-0.5 rounded-full">
                   <TrendingUp className="w-3 h-3" />
                   <span>+5.4%</span>
                 </span>
               </div>
               <div className="mt-4">
-                <span className="text-xs font-medium text-slate-400 block">
+                <span className="text-xs font-medium text-slate-400 dark:text-slate-400 block">
                   Active Tasks
                 </span>
-                <span className="text-2xl font-extrabold text-slate-900 mt-0.5 block">
+                <span className="text-2xl font-extrabold text-slate-900 dark:text-white mt-0.5 block">
                   {430 + activeTasksCount}
                 </span>
               </div>
             </div>
 
             {/* Completed */}
-            <div className="saas-card p-5 bg-white border border-slate-200 rounded-2xl flex flex-col justify-between">
+            <div className="saas-card p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl flex flex-col justify-between">
               <div className="flex items-center justify-between">
-                <div className="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-xl bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
                   <CheckCircle2 className="w-5 h-5" />
                 </div>
-                <span className="inline-flex items-center space-x-1 text-emerald-600 text-xs font-bold bg-emerald-50 px-2 py-0.5 rounded-full">
+                <span className="inline-flex items-center space-x-1 text-emerald-600 dark:text-emerald-400 text-xs font-bold bg-emerald-50 dark:bg-emerald-950/40 px-2 py-0.5 rounded-full">
                   <TrendingUp className="w-3 h-3" />
                   <span>+18.2%</span>
                 </span>
               </div>
               <div className="mt-4">
-                <span className="text-xs font-medium text-slate-400 block">
+                <span className="text-xs font-medium text-slate-400 dark:text-slate-400 block">
                   Completed
                 </span>
-                <span className="text-2xl font-extrabold text-slate-900 mt-0.5 block">
+                <span className="text-2xl font-extrabold text-slate-900 dark:text-white mt-0.5 block">
                   {8120 + completedTasksCount}
                 </span>
               </div>
             </div>
 
             {/* Pending Review */}
-            <div className="saas-card p-5 bg-white border border-slate-200 rounded-2xl flex flex-col justify-between">
+            <div className="saas-card p-5 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl flex flex-col justify-between">
               <div className="flex items-center justify-between">
-                <div className="w-10 h-10 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-xl bg-indigo-50 dark:bg-indigo-950/50 text-indigo-600 dark:text-indigo-400 flex items-center justify-center">
                   <AlertCircle className="w-5 h-5" />
                 </div>
-                <span className="inline-flex items-center space-x-1 text-rose-600 text-xs font-bold bg-rose-50 px-2 py-0.5 rounded-full">
+                <span className="inline-flex items-center space-x-1 text-rose-600 dark:text-rose-400 text-xs font-bold bg-rose-50 dark:bg-rose-950/40 px-2 py-0.5 rounded-full">
                   <TrendingDown className="w-3 h-3" />
                   <span>-2%</span>
                 </span>
               </div>
               <div className="mt-4">
-                <span className="text-xs font-medium text-slate-400 block">
+                <span className="text-xs font-medium text-slate-400 dark:text-slate-400 block">
                   Pending Review
                 </span>
-                <span className="text-2xl font-extrabold text-slate-900 mt-0.5 block">
+                <span className="text-2xl font-extrabold text-slate-900 dark:text-white mt-0.5 block">
                   14
                 </span>
               </div>
             </div>
           </div>
 
-          {/* Main 2-Column Content Area matching Image 1 */}
+          {/* Main 2-Column Content Area */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Left Column (2 Cols): Global Task Registry & Recent Activity */}
             <div className="lg:col-span-2 space-y-6">
               {/* Global Task Registry */}
-              <div className="saas-card p-6 bg-white border border-slate-200 rounded-2xl space-y-4">
+              <div className="saas-card p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl space-y-4">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h2 className="text-base font-bold text-slate-900">
+                    <h2 className="text-base font-bold text-slate-900 dark:text-white">
                       Global Task Registry
                     </h2>
-                    <p className="text-xs text-slate-400 mt-0.5">
+                    <p className="text-xs text-slate-400 dark:text-slate-400 mt-0.5">
                       View and filter every task across all boards.
                     </p>
                   </div>
 
                   <div className="flex items-center space-x-2">
-                    <button className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl border border-slate-200 text-slate-700 text-xs font-semibold hover:bg-slate-50 transition-colors">
+                    <button className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 text-xs font-semibold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
                       <Filter className="w-3.5 h-3.5 text-slate-500" />
                       <span>Filter</span>
                     </button>
-                    <button className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl border border-slate-200 text-slate-700 text-xs font-semibold hover:bg-slate-50 transition-colors">
+                    <button className="flex items-center space-x-1.5 px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 text-xs font-semibold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors">
                       <Share className="w-3.5 h-3.5 text-slate-500" />
                       <span>Export</span>
                     </button>
@@ -260,14 +260,14 @@ export default function AdminOverviewPage() {
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Search by task title, ID or assignee..."
-                    className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 focus:outline-none focus:border-indigo-500 focus:bg-white"
+                    className="w-full pl-10 pr-4 py-2 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl text-xs text-slate-800 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-800"
                   />
                 </div>
 
-                {/* Table matching Image 1 */}
+                {/* Table */}
                 <div className="overflow-x-auto">
                   <table className="w-full text-left text-xs">
-                    <thead className="bg-slate-50/70 border-y border-slate-100 text-slate-400 uppercase tracking-wider font-semibold">
+                    <thead className="bg-slate-50/70 dark:bg-slate-800/60 border-y border-slate-100 dark:border-slate-800 text-slate-400 dark:text-slate-400 uppercase tracking-wider font-semibold">
                       <tr>
                         <th className="py-3 px-3">Task ID</th>
                         <th className="py-3 px-3">Title</th>
@@ -276,21 +276,21 @@ export default function AdminOverviewPage() {
                         <th className="py-3 px-3 text-right">Action</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-slate-100">
+                    <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
                       {filteredTasks.slice(0, 6).map((task, idx) => {
                         const taskIdString = `TSK-${1024 + idx}`;
                         const statusText = task.status === 'DOING' ? 'In Progress' : task.status === 'DONE' ? 'Completed' : 'Todo';
 
                         return (
-                          <tr key={task._id} className="hover:bg-slate-50/50 transition-colors">
-                            <td className="py-3.5 px-3 font-semibold text-indigo-600">
+                          <tr key={task._id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/40 transition-colors">
+                            <td className="py-3.5 px-3 font-semibold text-indigo-600 dark:text-indigo-400">
                               {taskIdString}
                             </td>
                             <td className="py-3.5 px-3">
-                              <p className="font-bold text-slate-800 leading-tight">
+                              <p className="font-bold text-slate-800 dark:text-slate-100 leading-tight">
                                 {task.title}
                               </p>
-                              <p className="text-[11px] text-slate-400 mt-0.5">
+                              <p className="text-[11px] text-slate-400 dark:text-slate-400 mt-0.5">
                                 {task.creator?.name || 'Sarah Jenkins'}
                               </p>
                             </td>
@@ -310,7 +310,7 @@ export default function AdminOverviewPage() {
                                     task.priority
                                   )}`}
                                 ></span>
-                                <span className="font-medium text-slate-700 capitalize">
+                                <span className="font-medium text-slate-700 dark:text-slate-300 capitalize">
                                   {task.priority ? task.priority.toLowerCase() : 'Medium'}
                                 </span>
                               </div>
@@ -321,7 +321,7 @@ export default function AdminOverviewPage() {
                                   setSelectedTask(task);
                                   setIsAssignOpen(true);
                                 }}
-                                className="p-1 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-slate-700"
+                                className="p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"
                                 title="Reassign Task"
                               >
                                 <MoreHorizontal className="w-4 h-4" />
@@ -342,32 +342,32 @@ export default function AdminOverviewPage() {
                   </table>
                 </div>
 
-                {/* Pagination matching Image 1 */}
-                <div className="flex items-center justify-between pt-3 border-t border-slate-100 text-xs text-slate-500">
-                  <span>Showing 5 of {tasks.length} tasks</span>
+                {/* Pagination */}
+                <div className="flex items-center justify-between pt-3 border-t border-slate-100 dark:border-slate-800 text-xs text-slate-500 dark:text-slate-400">
+                  <span>Showing {Math.min(5, filteredTasks.length)} of {tasks.length} tasks</span>
                   <div className="flex items-center space-x-2">
-                    <button className="px-3 py-1 rounded-lg border border-slate-200 hover:bg-slate-50 text-slate-600 font-medium">
+                    <button className="px-3 py-1 rounded-lg border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 font-medium">
                       Previous
                     </button>
-                    <button className="px-3 py-1 rounded-lg border border-slate-200 hover:bg-slate-50 text-slate-600 font-medium">
+                    <button className="px-3 py-1 rounded-lg border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 font-medium">
                       Next
                     </button>
                   </div>
                 </div>
               </div>
 
-              {/* Recent Activity Card matching Image 1 */}
-              <div className="saas-card p-6 bg-white border border-slate-200 rounded-2xl space-y-4">
-                <h3 className="text-base font-bold text-slate-900">
+              {/* Recent Activity Card */}
+              <div className="saas-card p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl space-y-4">
+                <h3 className="text-base font-bold text-slate-900 dark:text-white">
                   Recent Activity
                 </h3>
 
-                <div className="space-y-3.5 text-xs text-slate-600">
+                <div className="space-y-3.5 text-xs text-slate-600 dark:text-slate-300">
                   <div className="flex items-start space-x-3">
                     <span className="w-2 h-2 rounded-full bg-indigo-600 mt-1.5 shrink-0"></span>
                     <div>
                       <p>
-                        <strong className="text-slate-900">Sarah Jenkins</strong> moved task <span className="text-indigo-600 font-semibold">"System Migration"</span> to Doing
+                        <strong className="text-slate-900 dark:text-white">Sarah Jenkins</strong> moved task <span className="text-indigo-600 dark:text-indigo-400 font-semibold">"System Migration"</span> to Doing
                       </p>
                       <span className="text-[10px] text-slate-400 uppercase font-semibold">2 MINS AGO</span>
                     </div>
@@ -377,7 +377,7 @@ export default function AdminOverviewPage() {
                     <span className="w-2 h-2 rounded-full bg-emerald-500 mt-1.5 shrink-0"></span>
                     <div>
                       <p>
-                        <strong className="text-slate-900">Michael Chen</strong> completed <span className="text-indigo-600 font-semibold">"API Docs"</span>
+                        <strong className="text-slate-900 dark:text-white">Michael Chen</strong> completed <span className="text-indigo-600 dark:text-indigo-400 font-semibold">"API Docs"</span>
                       </p>
                       <span className="text-[10px] text-slate-400 uppercase font-semibold">45 MINS AGO</span>
                     </div>
@@ -387,7 +387,7 @@ export default function AdminOverviewPage() {
                     <span className="w-2 h-2 rounded-full bg-purple-500 mt-1.5 shrink-0"></span>
                     <div>
                       <p>
-                        <strong className="text-slate-900">Admin</strong> updated permissions for <span className="text-indigo-600 font-semibold">"Guest User"</span>
+                        <strong className="text-slate-900 dark:text-white">Admin</strong> updated permissions for <span className="text-indigo-600 dark:text-indigo-400 font-semibold">"Guest User"</span>
                       </p>
                       <span className="text-[10px] text-slate-400 uppercase font-semibold">2 HOURS AGO</span>
                     </div>
@@ -398,18 +398,18 @@ export default function AdminOverviewPage() {
 
             {/* Right Column (1 Col): User Directory & System Health */}
             <div className="space-y-6">
-              {/* User Directory Card matching Image 1 */}
-              <div className="saas-card p-6 bg-white border border-slate-200 rounded-2xl space-y-4">
+              {/* User Directory Card */}
+              <div className="saas-card p-6 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl space-y-4">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h3 className="text-base font-bold text-slate-900">
+                    <h3 className="text-base font-bold text-slate-900 dark:text-white">
                       User Directory
                     </h3>
-                    <p className="text-xs text-slate-400 mt-0.5">
+                    <p className="text-xs text-slate-400 dark:text-slate-400 mt-0.5">
                       Manage roles and status.
                     </p>
                   </div>
-                  <button className="p-1.5 rounded-lg text-indigo-600 hover:bg-indigo-50 transition-colors">
+                  <button className="p-1.5 rounded-lg text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-indigo-950/50 transition-colors">
                     <UserPlus className="w-4 h-4" />
                   </button>
                 </div>
@@ -422,41 +422,41 @@ export default function AdminOverviewPage() {
                     value={userSearch}
                     onChange={(e) => setUserSearch(e.target.value)}
                     placeholder="Find users..."
-                    className="w-full pl-8 pr-3 py-1.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-indigo-500 focus:bg-white"
+                    className="w-full pl-8 pr-3 py-1.5 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-xl text-xs text-slate-800 dark:text-slate-100 placeholder-slate-400 focus:outline-none focus:border-indigo-500 focus:bg-white dark:focus:bg-slate-800"
                   />
                 </div>
 
-                {/* User Rows matching Image 1 */}
+                {/* User Rows */}
                 <div className="space-y-3 pt-1">
                   {filteredUsers.slice(0, 5).map((u, i) => {
                     const roleLabel = sampleRoles[i % sampleRoles.length];
                     return (
                       <div
                         key={u.id}
-                        className="flex items-center justify-between p-2 rounded-xl hover:bg-slate-50 transition-colors"
+                        className="flex items-center justify-between p-2 rounded-xl hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"
                       >
                         <div className="flex items-center space-x-2.5">
                           <div className="relative">
-                            <div className="w-8 h-8 rounded-full bg-slate-800 text-white flex items-center justify-center text-xs font-bold">
+                            <div className="w-8 h-8 rounded-full bg-slate-800 dark:bg-indigo-600 text-white flex items-center justify-center text-xs font-bold">
                               {u.name.charAt(0).toUpperCase()}
                             </div>
-                            <span className="w-2.5 h-2.5 bg-emerald-500 border-2 border-white rounded-full absolute -bottom-0.5 -right-0.5"></span>
+                            <span className="w-2.5 h-2.5 bg-emerald-500 border-2 border-white dark:border-slate-900 rounded-full absolute -bottom-0.5 -right-0.5"></span>
                           </div>
                           <div>
-                            <span className="font-bold text-slate-800 text-xs block leading-tight">
+                            <span className="font-bold text-slate-800 dark:text-slate-100 text-xs block leading-tight">
                               {u.name}
                             </span>
-                            <span className="text-[10px] text-slate-400 block truncate max-w-[120px]">
+                            <span className="text-[10px] text-slate-400 dark:text-slate-400 block truncate max-w-[120px]">
                               {u.email}
                             </span>
                           </div>
                         </div>
 
                         <div className="flex items-center space-x-2">
-                          <span className="text-[9px] font-extrabold uppercase px-2 py-0.5 rounded-md bg-indigo-50 text-indigo-700 tracking-wider">
+                          <span className="text-[9px] font-extrabold uppercase px-2 py-0.5 rounded-md bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border border-indigo-200/50 dark:border-indigo-800/50 tracking-wider">
                             {roleLabel}
                           </span>
-                          <button className="text-slate-400 hover:text-slate-600">
+                          <button className="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
                             <MoreHorizontal className="w-3.5 h-3.5" />
                           </button>
                         </div>
@@ -467,13 +467,13 @@ export default function AdminOverviewPage() {
 
                 <Link
                   href="/admin/users"
-                  className="w-full block text-center py-2 px-4 rounded-xl border border-slate-200 text-slate-700 text-xs font-semibold hover:bg-slate-50 transition-colors"
+                  className="w-full block text-center py-2 px-4 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 text-xs font-semibold hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
                 >
                   View All Users
                 </Link>
               </div>
 
-              {/* System Health Card matching Image 1 */}
+              {/* System Health Card */}
               <div className="rounded-2xl p-6 bg-gradient-to-br from-indigo-600 to-purple-600 text-white shadow-xl shadow-indigo-500/20 space-y-4">
                 <div className="flex items-center space-x-2">
                   <ShieldCheck className="w-5 h-5 text-white" />
