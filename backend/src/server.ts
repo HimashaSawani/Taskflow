@@ -45,6 +45,15 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Root welcome & status endpoint
+app.get('/', (_req: Request, res: Response) => {
+  res.status(200).json({
+    message: 'TaskFlow API Server is running smoothly!',
+    health: '/health',
+    timestamp: new Date().toISOString(),
+  });
+});
+
 // Health check endpoint
 app.get('/health', (_req: Request, res: Response) => {
   res.status(200).json({
@@ -52,6 +61,17 @@ app.get('/health', (_req: Request, res: Response) => {
     timestamp: new Date().toISOString(),
     uptime: process.uptime(),
   });
+});
+
+// Ensure database connection and admin account for serverless invocations
+app.use(async (_req: Request, _res: Response, next) => {
+  try {
+    await connectDatabase();
+    await autoSeedAdminIfMissing();
+  } catch (err) {
+    console.error('Database connection middleware error:', err);
+  }
+  next();
 });
 
 // API Routes
@@ -205,6 +225,9 @@ const startServer = async () => {
   }
 };
 
-startServer();
+// Only start standalone HTTP server in non-serverless environments
+if (process.env.VERCEL !== '1') {
+  startServer();
+}
 
 export default app;
