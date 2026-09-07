@@ -5,6 +5,10 @@ let mongod: MongoMemoryServer | null = null;
 
 export const connectDatabase = async (): Promise<void> => {
   try {
+    if (mongoose.connection.readyState >= 1) {
+      return;
+    }
+
     const mongoUri = process.env.MONGODB_URI;
 
     if (mongoUri && mongoUri.trim() !== '') {
@@ -22,7 +26,11 @@ export const connectDatabase = async (): Promise<void> => {
     console.log('Tip: You can specify MONGODB_URI in backend/.env to use MongoDB Atlas or local MongoDB.');
   } catch (error) {
     console.error('Failed to connect to MongoDB:', error);
-    process.exit(1);
+    if (process.env.NODE_ENV === 'production') {
+      throw error;
+    } else {
+      process.exit(1);
+    }
   }
 };
 
