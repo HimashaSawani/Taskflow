@@ -10,7 +10,7 @@
 
 > **Live Production Deployment:**
 > - 🌐 **Frontend Web App:** [https://taskflow-brown-sigma.vercel.app](https://taskflow-brown-sigma.vercel.app)
-> - 🔌 **Backend REST API:** [https://taskflow-usiv.vercel.app](https://taskflow-usiv.vercel.app) *(Health: [`/health`](https://taskflow-usiv.vercel.app/health))*
+> - 🔌 **Backend REST API:** [https://taskflow-usiv.vercel.app](https://taskflow-usiv.vercel.app)
 > - 🗄️ **Database:** MongoDB Atlas Cloud Cluster
 
 ---
