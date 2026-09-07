@@ -13,8 +13,18 @@ const getJwtSecret = (): string => {
 };
 
 export const signToken = (payload: TokenPayload): string => {
+  let rawExpiresIn = process.env.JWT_EXPIRES_IN;
+  let expiresIn: any = '7d';
+
+  if (rawExpiresIn && typeof rawExpiresIn === 'string' && rawExpiresIn.trim() !== '') {
+    const cleaned = rawExpiresIn.trim().replace(/^['"]|['"]$/g, '');
+    if (cleaned.length > 0) {
+      expiresIn = cleaned;
+    }
+  }
+
   return jwt.sign(payload, getJwtSecret(), {
-    expiresIn: (process.env.JWT_EXPIRES_IN as any) || '7d',
+    expiresIn,
   });
 };
 
