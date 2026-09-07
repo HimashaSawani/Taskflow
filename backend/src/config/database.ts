@@ -4,34 +4,30 @@ import { MongoMemoryServer } from 'mongodb-memory-server';
 let mongod: MongoMemoryServer | null = null;
 
 export const connectDatabase = async (): Promise<void> => {
-  try {
-    if (mongoose.connection.readyState >= 1) {
-      return;
-    }
-
-    const mongoUri = process.env.MONGODB_URI;
-
-    if (mongoUri && mongoUri.trim() !== '') {
-      console.log('Connecting to MongoDB via MONGODB_URI...');
-      await mongoose.connect(mongoUri);
-      console.log('Successfully connected to MongoDB.');
-      return;
-    }
-
-    console.log('No MONGODB_URI provided. Initializing local in-memory MongoDB server...');
-    mongod = await MongoMemoryServer.create();
-    const uri = mongod.getUri();
-    await mongoose.connect(uri);
-    console.log(`Successfully connected to in-memory MongoDB at ${uri}`);
-    console.log('Tip: You can specify MONGODB_URI in backend/.env to use MongoDB Atlas or local MongoDB.');
-  } catch (error) {
-    console.error('Failed to connect to MongoDB:', error);
-    if (process.env.NODE_ENV === 'production') {
-      throw error;
-    } else {
-      process.exit(1);
-    }
+  if (mongoose.connection.readyState >= 1) {
+    return;
   }
+
+  const mongoUri = process.env.MONGODB_URI?.trim();
+
+  if (mongoUri) {
+    console.log('Connecting to MongoDB Atlas...');
+    await mongoose.connect(mongoUri, {
+      serverSelectionTimeoutMS: 5000,
+    });
+    console.log('Successfully connected to MongoDB Atlas.');
+    return;
+  }
+
+  if (process.env.VERCEL || process.env.NODE_ENV === 'production') {
+    throw new Error('MONGODB_URI environment variable is not configured in Vercel project settings.');
+  }
+
+  console.log('No MONGODB_URI provided. Initializing local in-memory MongoDB server...');
+  mongod = await MongoMemoryServer.create();
+  const uri = mongod.getUri();
+  await mongoose.connect(uri);
+  console.log(`Successfully connected to in-memory MongoDB at ${uri}`);
 };
 
 export const disconnectDatabase = async (): Promise<void> => {

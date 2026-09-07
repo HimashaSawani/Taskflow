@@ -54,24 +54,31 @@ app.get('/', (_req: Request, res: Response) => {
   });
 });
 
-// Health check endpoint
-app.get('/health', (_req: Request, res: Response) => {
+// Health check endpoint with database diagnostics
+app.get('/health', async (_req: Request, res: Response) => {
+  const isConnected = (await import('mongoose')).connection.readyState === 1;
   res.status(200).json({
     status: 'ok',
+    database: isConnected ? 'connected' : 'disconnected',
+    hasMongoUri: Boolean(process.env.MONGODB_URI && process.env.MONGODB_URI.trim() !== ''),
     timestamp: new Date().toISOString(),
     uptime: process.uptime(),
   });
 });
 
 // Ensure database connection and admin account for serverless invocations
-app.use(async (_req: Request, _res: Response, next) => {
+app.use(async (_req: Request, res: Response, next) => {
   try {
     await connectDatabase();
     await autoSeedAdminIfMissing();
-  } catch (err) {
+    next();
+  } catch (err: any) {
     console.error('Database connection middleware error:', err);
+    res.status(500).json({
+      message: 'Database connection failed: ' + (err.message || 'Unknown database error'),
+      hint: 'Verify MONGODB_URI in Vercel Settings -> Environment Variables and ensure MongoDB Atlas Network Access has 0.0.0.0/0 allowed.',
+    });
   }
-  next();
 });
 
 // API Routes
