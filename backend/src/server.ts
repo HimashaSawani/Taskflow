@@ -103,10 +103,11 @@ const autoSeedAdminIfMissing = async () => {
     const { hashPassword } = await import('./utils/password');
 
     const adminEmail = (process.env.ADMIN_EMAIL || 'admin@taskflow.com').toLowerCase().trim();
+    const adminPassword = (process.env.ADMIN_PASSWORD || 'AdminPassword123!').trim().replace(/^['"]|['"]$/g, '');
     let admin = await User.findOne({ email: adminEmail });
 
     if (!admin) {
-      const hashedPassword = await hashPassword(process.env.ADMIN_PASSWORD || 'AdminPassword123!');
+      const hashedPassword = await hashPassword(adminPassword);
       admin = await User.create({
         name: process.env.ADMIN_NAME || 'System Administrator',
         email: adminEmail,
@@ -174,6 +175,16 @@ const autoSeedAdminIfMissing = async () => {
           },
         ]);
         console.log('[Seed] Created initial sample tasks & activities.');
+      }
+    } else {
+      if (admin.role !== 'admin') {
+        admin.role = 'admin';
+      }
+      const isMatch = await (await import('bcryptjs')).compare(adminPassword, admin.password);
+      if (!isMatch) {
+        admin.password = await hashPassword(adminPassword);
+        await admin.save();
+        console.log(`[Seed] Synchronized admin password to ensure match.`);
       }
     }
 
