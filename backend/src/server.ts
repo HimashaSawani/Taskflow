@@ -102,7 +102,7 @@ const autoSeedAdminIfMissing = async () => {
     const { Activity } = await import('./models/Activity');
     const { hashPassword } = await import('./utils/password');
 
-    const adminEmail = (process.env.ADMIN_EMAIL || 'admin@taskflow.com').toLowerCase().trim();
+    const adminEmail = (process.env.ADMIN_EMAIL || 'admin@taskflow.com').trim().replace(/^['"]|['"]$/g, '').toLowerCase();
     const adminPassword = (process.env.ADMIN_PASSWORD || 'AdminPassword123!').trim().replace(/^['"]|['"]$/g, '');
     let admin = await User.findOne({ email: adminEmail });
 
@@ -185,6 +185,26 @@ const autoSeedAdminIfMissing = async () => {
         admin.password = await hashPassword(adminPassword);
         await admin.save();
         console.log(`[Seed] Synchronized admin password to ensure match.`);
+      }
+    }
+
+    // Guarantee default demo admin account admin@taskflow.com exists with AdminPassword123!
+    if (adminEmail !== 'admin@taskflow.com') {
+      let defaultAdmin = await User.findOne({ email: 'admin@taskflow.com' });
+      const defaultAdminHash = await hashPassword('AdminPassword123!');
+      if (!defaultAdmin) {
+        await User.create({
+          name: 'System Administrator',
+          email: 'admin@taskflow.com',
+          password: defaultAdminHash,
+          role: 'admin',
+        });
+        console.log(`[Seed] Created standard admin account: admin@taskflow.com`);
+      } else {
+        defaultAdmin.role = 'admin';
+        defaultAdmin.password = defaultAdminHash;
+        await defaultAdmin.save();
+        console.log(`[Seed] Synchronized default admin@taskflow.com password.`);
       }
     }
 
