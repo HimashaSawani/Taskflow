@@ -1,10 +1,30 @@
 # TaskFlow — Production-Style Full-Stack Task Management Platform
 
+[![Live App](https://img.shields.io/badge/Live%20Demo-TaskFlow%20Pro-indigo?style=for-the-badge&logo=vercel)](https://taskflow-brown-sigma.vercel.app)
+[![API Status](https://img.shields.io/badge/API%20Server-Online-emerald?style=for-the-badge&logo=express)](https://taskflow-usiv.vercel.app/health)
 [![Next.js](https://img.shields.io/badge/Next.js-15.5-black?style=flat&logo=next.js)](https://nextjs.org/)
 [![Express](https://img.shields.io/badge/Express-4.21-lightgrey?style=flat&logo=express)](https://expressjs.com/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.7-blue?style=flat&logo=typescript)](https://www.typescriptlang.org/)
-[![MongoDB](https://img.shields.io/badge/MongoDB-Mongoose-green?style=flat&logo=mongodb)](https://www.mongodb.com/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-green?style=flat&logo=mongodb)](https://www.mongodb.com/)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
+> **Live Production Deployment:**
+> - 🌐 **Frontend Web App:** [https://taskflow-brown-sigma.vercel.app](https://taskflow-brown-sigma.vercel.app)
+> - 🔌 **Backend REST API:** [https://taskflow-usiv.vercel.app](https://taskflow-usiv.vercel.app) *(Health: [`/health`](https://taskflow-usiv.vercel.app/health))*
+> - 🗄️ **Database:** MongoDB Atlas Cloud Cluster
+
+---
+
+### 🔑 Instant Evaluation & Demo Credentials
+
+| Role | Work Email | Password | Access & Privileges |
+| :--- | :--- | :--- | :--- |
+| **👑 System Admin** | `admin@taskflow.com` | `AdminPassword123!` | System-wide governance, reassign any task, user directory & workloads, system audit feed. |
+| **👤 Team Member** | `alex@taskflow.com` | `Password123!` | Kanban drag-and-drop, create unassigned tasks, claim eligible items, manage personal tasks. |
+
+*(Note: 1-Click pre-fill buttons are also available directly on the login screen for instant evaluation).*
+
+---
 
 TaskFlow is a production-grade, full-stack Task Management SaaS application built with **Next.js (App Router)**, **Express.js**, **TypeScript**, and **MongoDB**. Designed with strict server-side **Role-Based Access Control (RBAC)**, it delivers a high-performance Kanban workflow with interactive drag-and-drop mechanics powered by `@dnd-kit`.
 
@@ -321,29 +341,44 @@ Passwords are dynamically hashed using `bcrypt` prior to database insertion.
 
 ---
 
-## Deployment
+## Production Deployment Architecture
 
-### Frontend (Vercel)
-1. Push codebase to GitHub.
-2. Import the `frontend` folder in Vercel.
-3. Set Framework Preset to **Next.js**.
-4. Configure Environment Variable:
-   - `NEXT_PUBLIC_API_URL`: `https://your-backend-api.onrender.com/api`
-5. Deploy.
+The application is deployed across high-availability serverless infrastructure:
 
-### Backend (Render / Railway)
-1. Create a new Web Service pointing to the `backend` repository directory.
-2. Set Environment to **Node**.
-3. Build Command: `npm install && npm run build`
-4. Start Command: `npm start`
-5. Configure Environment Variables (`PORT`, `MONGODB_URI`, `JWT_SECRET`, `FRONTEND_URL`).
-6. Run database seed once: `npm run seed:admin`.
+- **Frontend Application**: Deployed on **Vercel** with Next.js App Router edge caching.
+  - Live URL: [https://taskflow-brown-sigma.vercel.app](https://taskflow-brown-sigma.vercel.app)
+  - Environment Variable: `NEXT_PUBLIC_API_URL=https://taskflow-usiv.vercel.app/api`
+- **Backend API**: Deployed on **Vercel Serverless Functions** (`backend/vercel.json`).
+  - Live URL: [https://taskflow-usiv.vercel.app](https://taskflow-usiv.vercel.app)
+  - Health Endpoint: [https://taskflow-usiv.vercel.app/health](https://taskflow-usiv.vercel.app/health)
+  - Environment Variables: `MONGODB_URI`, `JWT_SECRET`, `JWT_EXPIRES_IN=7d`, `ADMIN_EMAIL`, `ADMIN_PASSWORD`
+- **Database**: **MongoDB Atlas** M0 Cloud Cluster (High Availability, Automated Indexing).
 
-### Database (MongoDB Atlas)
-1. Create a free M0 cluster on MongoDB Atlas.
-2. Under **Network Access**, allow IP access (e.g. `0.0.0.0/0` for cloud deployment).
-3. Under **Database Access**, create a user with read/write permissions.
-4. Copy the connection string into the backend `MONGODB_URI` environment variable.
+---
+
+## Automated QA & Verification Suite
+
+TaskFlow includes an end-to-end automated test runner that verifies 13 distinct security, authorization, and mutation checkpoints against the live production environment:
+
+```bash
+# Run the automated QA test suite
+node backend/test_production.js
+```
+
+### Test Coverage (13 / 13 Passing)
+- `[01]` Server Root Endpoint Status
+- `[02]` Admin Login (`admin@taskflow.com`)
+- `[03]` Member Login (`alex@taskflow.com`)
+- `[04]` Dynamic User Registration (New Member)
+- `[05]` Fetch Kanban Tasks List (Authenticated)
+- `[06]` Task Creation with Priority HIGH & Due Date
+- `[07]` Member Self-Claims Unassigned Task (RBAC Check)
+- `[08]` Drag-and-Drop Pipeline Progression (`TODO` ➔ `DOING` ➔ `DONE`)
+- `[09]` Admin Dynamic Task Reassignment & Unassignment
+- `[10]` Activity & Audit Log Stream Verification
+- `[11]` Admin User Directory & Workload Analytics
+- `[12]` Security Guard: Normal User Blocked from `/api/users` (403 Forbidden)
+- `[13]` Task Cleanup & Deletion
 
 ---
 
